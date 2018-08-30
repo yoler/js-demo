@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>节流防抖</title>
+</head>
+<body>
+
+</body>
+
+<script type="text/javascript">
+	
+	function debounce(fn, msg) {
+		clearTimeout(fn.timer)
+		fn.timer = setTimeout(() => {
+			fn(msg)
+		}, 1000)
+	}
+
+	function print(msg) {
+		console.log(msg)
+	}
+
+	window.onresize = () => {
+		debounce(print ,'函数防抖')
+	}
+
+	function debounce(fn, msg) {
+		let timer = null
+		return function () {
+			clearTimeout(timer)
+			timer = setTimeout(() => {
+				fn(msg)
+			}, 1000)
+		}
+	}
+
+	window.onresize = debounce(print, '函数防抖')
+
+	function throttle (fn, wait, msg) {
+		var previous = null
+		var timer = null
+		return function () {
+			var now = +new Date()
+			if (!previous) previous = now
+			if (now - previous > wait) {
+				clearTimeout(timer)
+				fn(msg)
+				previous = now
+			} else {
+				clearTimeout(timer)
+				timer = setTimeout(() => {
+					fn(msg)
+				}, wait)
+			}
+		}
+	}
+	window.onresize = throttle(print, 1000, '函数节流')
+
+</script>
+</html>
